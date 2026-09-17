@@ -28,9 +28,24 @@ $("#subscribe").on("click", function() {
 });
 
 $('.video-play, #modal-video .close-button').on('click', function() {
-  $("#modal-video").toggle();
+  var $modal = $("#modal-video");
+  var $iframe = $modal.find("iframe");
+
+  if ($modal.is(":visible")) {
+    var src = $iframe.attr("src");
+    $iframe.attr("src", "");
+    $iframe.attr("src", src);
+  }
+
+  $modal.toggle();
   $("body").toggleClass("overflow-hidden");
   resizeVideo();
+});
+
+$(document).on("keydown", function(e) {
+  if (e.key === "Escape" && $("#modal-video").is(":visible")) {
+    $("#modal-video .close-button").trigger("click");
+  }
 });
 
 $(window).on('resize', function() {
